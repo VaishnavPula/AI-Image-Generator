@@ -1,7 +1,6 @@
 import os
 import uuid
 import warnings
-
 import torch
 from diffusers import DiffusionPipeline
 from diffusers.utils import logging
@@ -12,20 +11,14 @@ warnings.filterwarnings("ignore")
 
 app = Flask(__name__)
 model_id = "segmind/tiny-sd"
-
 image_generator = DiffusionPipeline.from_pretrained(
     model_id, torch_dtype=torch.float16
 ).to("cuda")
-
 image_folder = os.path.join("static", "generated")
 os.makedirs(image_folder, exist_ok=True)
-
-
 @app.route("/")
 def home():
     return render_template("index.html")
-
-
 @app.route("/generate", methods=["POST"])
 def generate_image():
     try:
