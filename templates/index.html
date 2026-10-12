@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PixelForge AI | Image Studio</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <a href="#" class="logo">
+                <span class="logo-icon">✦</span>
+                <span>PixelForge <span class="logo-ai">AI</span></span>
+            </a>
+
+            <button type="button" class="new-project-btn" id="newProjectBtn">
+                <span>＋</span> New creation
+            </button>
+
+            <nav class="sidebar-nav">
+                <p class="nav-heading">WORKSPACE</p>
+
+                <a href="#" class="nav-link active">
+                    <span>✧</span> Image Studio
+                </a>
+
+                <a href="#gallery" class="nav-link">
+                    <span>▦</span> My creations
+                </a>
+
+                <a href="#settings" class="nav-link">
+                    <span>⚙</span> Settings
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <div class="gpu-card">
+                    <div class="gpu-status">
+                        <span class="status-dot"></span>
+                        Local AI Studio
+                    </div>
+
+                    <p>Your images, your machine.</p>
+                    <span class="gpu-label">NVIDIA GPU</span>
+                </div>
+
+                <div class="profile">
+                    <div class="profile-avatar">P</div>
+
+                    <div>
+                        <strong>Creator</strong>
+                        <p>Personal workspace</p>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <header class="topbar">
+                <div>
+                    <p class="breadcrumb">WORKSPACE / IMAGE STUDIO</p>
+
+                    <h1>
+                        Create something
+                        <span>extraordinary.</span>
+                    </h1>
+                </div>
+
+                <div class="local-badge">
+                    <span class="status-dot"></span>
+                    Runs locally
+                </div>
+            </header>
+
+            <!-- Image Creation Form -->
+            <section class="creator-section">
+
+                <div class="section-heading">
+                    <div>
+                        <h2>What do you imagine?</h2>
+                        <p>Describe your idea and let AI bring it to life.</p>
+                    </div>
+
+                    <span class="step-number">01 / CREATE</span>
+                </div>
+
+                <form id="generateForm">
+
+                    <label for="prompt">YOUR PROMPT</label>
+
+                    <textarea
+                        id="prompt"
+                        name="prompt"
+                        placeholder="A futuristic city floating above the clouds at sunset, cinematic lighting, incredible detail..."
+                        rows="4"
+                        maxlength="2000"
+                        required
+                    ></textarea>
+
+                    <div class="prompt-footer">
+                        <span>✧ Be descriptive for better results</span>
+                        <span id="charCount">0 / 2000</span>
+                    </div>
+
+                    <div class="settings-row" id="settings">
+
+                        <div class="setting-group">
+                            <label for="imageSize">IMAGE SIZE</label>
+
+                            <select id="imageSize" name="imageSize">
+                                <option value="512x512">
+                                    Square · 512 × 512
+                                </option>
+
+                                <option value="512x768">
+                                    Portrait · 512 × 768
+                                </option>
+
+                                <option value="768x512">
+                                    Landscape · 768 × 512
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="setting-group">
+                            <label for="style">ART STYLE</label>
+
+                            <select id="style" name="style">
+                                <option value="none">No extra style</option>
+                                <option value="photorealistic">Photorealistic</option>
+                                <option value="digital art">Digital art</option>
+                                <option value="anime">Anime</option>
+                                <option value="fantasy art">Fantasy</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="generate-btn"
+                        id="generateBtn"
+                    >
+                        <span>✦</span>
+                        Generate image
+                        <span class="button-arrow">↗</span>
+                    </button>
+
+                    <p class="privacy-note">
+                        🔒 Designed for local image generation on your machine.
+                    </p>
+
+                </form>
+            </section>
+
+            <!-- Image Preview -->
+            <section class="result-section" id="result">
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Your canvas</h2>
+                        <p>Your generated image will appear here.</p>
+                    </div>
+
+                    <span class="step-number">02 / PREVIEW</span>
+                </div>
+
+                <div class="image-preview" id="imagePreview">
+
+                    <div class="empty-state" id="emptyState">
+                        <div class="empty-icon">✧</div>
+
+                        <h3>Your next masterpiece starts here.</h3>
+
+                        <p>
+                            Enter a prompt above and generate your first image.
+                        </p>
+
+                        <div class="preview-decoration">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+
+                    <div class="loading-state" id="loadingState" hidden>
+                        <div class="loader"></div>
+                        <h3>Creating your image...</h3>
+                        <p>Your local GPU is working on your idea.</p>
+                    </div>
+
+                    <img
+                        id="generatedImage"
+                        src=""
+                        alt="Your AI-generated artwork"
+                        hidden
+                    >
+
+                </div>
+
+                <div class="result-actions" id="resultActions" hidden>
+                    <span>✦ Your creation</span>
+
+                    <a
+                        id="downloadBtn"
+                        href="#"
+                        download="pixelforge-creation.png"
+                    >
+                        ↓ Download image
+                    </a>
+                </div>
+
+            </section>
+
+            <!-- Recent Creations -->
+            <section class="gallery-section" id="gallery">
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Recent creations</h2>
+                        <p>Your generated images will appear here.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-grid" id="galleryGrid">
+                    <div class="gallery-empty">
+                        Your gallery is waiting for its first creation.
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Footer -->
+            <footer>
+                <span>PIXELFORGE AI</span>
+                <span>Powered by your own GPU ✦</span>
+            </footer>
+
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
